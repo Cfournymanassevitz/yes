@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Models\Store;
+use http\Client\Request;
 
 class StoreController extends Controller
 {
@@ -39,9 +40,15 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStoreRequest $request): void
+    public function store(Request $request)
     {
-        Store::create($request->all());
+        $user = new User;
+        $user->id = \Illuminate\Support\Str::uuid(); // générer un nouvel UUID
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        // définir d'autres champs...
+        $user->save();
     }
 
     /**

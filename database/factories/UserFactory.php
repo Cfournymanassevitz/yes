@@ -29,8 +29,11 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make($this->faker->password()),
             'remember_token' => Str::random(10),
+            'payment_adress' => $this->faker->address,
+            'delivery_adress' => $this->faker->address,
+            'phone' => $this->faker->phoneNumber,
         ];
     }
 
