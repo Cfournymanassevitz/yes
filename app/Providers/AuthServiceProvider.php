@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate; // Correct import
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,8 +22,25 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+
+    public function boot()
     {
-        //
+        $this->registerPolicies();
+
+        Gate::define('update-articles', function ($user) {
+            // Retournez true si l'utilisateur a la permission de mettre à jour les articles
+            return $user->hasPermission('update-articles');
+        });
+
+        Gate::define('create-article', function ($user) {
+            // Retournez true si l'utilisateur a la permission de créer des articles
+            return $user->hasPermission('create-article');
+        });
+
+        Gate::define('delete-article', function ($user) {
+            // Retournez true si l'utilisateur a la permission de supprimer des articles
+            return $user->hasPermission('delete-article');
+        });
     }
+
 }

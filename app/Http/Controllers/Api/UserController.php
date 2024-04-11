@@ -105,8 +105,11 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Store $store
+     * @param $id
+     * @return mixed
      */
-    public function show(Store $store)
+    public function show(Store $store, $id)
     {
         return $User = User::find($id);
     }
@@ -118,8 +121,11 @@ class UserController extends Controller
      * @param Store $store
      * @param $id
      */
+
     public function update(UpdateStoreRequest $request, Store $store, $id)
     {
+        $this->authorize('update-articles');
+
         $User = User::find($id);
         $User->update($request->all());
         return $User;
