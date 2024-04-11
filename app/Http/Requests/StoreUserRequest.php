@@ -21,9 +21,9 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> 'required|string',
-            'email'=>'required|string|email|unique:users',
-            'password'=>'required|min:8'
+            'name'=> [ 'required', 'string' ],
+            'email'=> [ 'required' , 'string', 'email', 'unique:users' ],
+            'password'=> ['required', 'min:8' ]
         ];
     }
 
@@ -38,4 +38,17 @@ class StoreUserRequest extends FormRequest
             'data' => $validator->errors()
         ], 422));
     }
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The name field is required',
+            'email.required' => 'The email field is required',
+            'email.email' => 'The email field must be a valid email',
+            'email.unique' => 'The email field must be unique',
+            'password.required' => 'The password field is required',
+            'password.min' => 'The password field must be at least 8 characters'
+        ];
+    }
 }
+// To do fonction message erreur (tuto sur le chat
+//to do Store Request et Product
