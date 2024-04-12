@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Models\Store;
-use http\Client\Request;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class StoreController extends Controller
 {
@@ -42,13 +45,26 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
-        $user->id = \Illuminate\Support\Str::uuid(); // générer un nouvel UUID
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        // définir d'autres champs...
-        $user->save();
+//        $request->validate([
+//            'name' => 'required',
+//            'theme' => 'required',
+//            'biography' => 'required',
+//        ]);
+//        dd($request->all());
+//        $shop = new Store();
+        $shop = Store::create(
+            array_merge
+            (
+                $request->all(),
+                ['user_id' => Auth::id()]
+            )
+        );
+//        $shop->name = $request->input('name');
+//        $shop->theme = $request->input('theme');
+//        $shop->biography = $request->input('biography');
+//        $shop->user_id = Auth::id();
+        $shop->save();
+        return response()->json(['message' => 'Shop created successfully'], 200);
     }
 
     /**
@@ -67,6 +83,7 @@ class StoreController extends Controller
      */
     public function update(UpdateStoreRequest $request, $id)
     {
+
         $store = Store::find($id);
         $store->update($request->all());
         return $store;
