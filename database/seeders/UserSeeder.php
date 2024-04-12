@@ -26,8 +26,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
     \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'asd@asd.com',
+            'name' => fake()->name(),
+            'email' => fake()->email(),
             'password' => bcrypt(123)
         ]);
         // Create 10 random users

@@ -36,7 +36,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $order;
+        return $order->with('products')->where('id', $order->id)->get();
     }
 
     /**

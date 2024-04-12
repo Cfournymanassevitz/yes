@@ -28,6 +28,8 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
     public function products(): BelongsToMany {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'order_product' , 'order_id', 'product_id')->withPivot('quantity');
     }
+
+
 }
